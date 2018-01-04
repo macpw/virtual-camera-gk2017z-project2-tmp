@@ -20,6 +20,8 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
@@ -35,8 +37,18 @@ public class Controller {
     public Controller(ViewportModel viewportModel, View view) {
         this.viewportModel = viewportModel;
         this.view = view;
+        this.addListenerToFocalDistanceJPanel();
         this.addMotionActions();
         this.addRotationActions();
+    }
+    
+    private void addListenerToFocalDistanceJPanel() {
+        JLabel focalDistanceJLabel = view.getFocalDistanceJPanel().getFocalDistanceJLabel();
+        focalDistanceJLabel.setText(Integer.toString((int)viewportModel.getDistanceBetweenObserverAndViewport()));
+        JSlider focalDistanceJSlider = view.getFocalDistanceJPanel().getFocalDistanceJSlider();
+        focalDistanceJSlider.setValue((int)viewportModel.getDistanceBetweenObserverAndViewport());
+        ChangeListenerForFocalDistanceJSlider changeListenerForFocalDistanceJSlider = new ChangeListenerForFocalDistanceJSlider(viewportModel, focalDistanceJLabel);
+        focalDistanceJSlider.addChangeListener(changeListenerForFocalDistanceJSlider);
     }
     
     private void addMotionActions() {
