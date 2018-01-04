@@ -23,6 +23,24 @@ public class View {
         this.createAndShowGui();
     }
     
+    // Getters
+    
+    public ViewportJPanel getViewportJPanel() {
+        return viewportJPanel;
+    }
+    
+    public FocalDistanceJPanel getFocalDistanceJPanel() {
+        return focalDistanceJPanel;
+    }
+    
+    public MotionControlJPanel getMotionControlJPanel() {
+        return motionControlJPanel;
+    }
+    
+    public RotationControlJPanel getRotationControlJPanel() {
+        return rotationControlJPanel;
+    }
+    
     // Methods
     
     private void createAndShowGui() {
