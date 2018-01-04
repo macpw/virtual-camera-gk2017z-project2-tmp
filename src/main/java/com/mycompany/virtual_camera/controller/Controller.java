@@ -58,7 +58,6 @@ public class Controller {
         StepJTextFieldDocumentListener stepJTextFieldDocumentListener = new StepJTextFieldDocumentListener(stepJTextField, viewportModel);
         stepJTextField.getDocument().addDocumentListener(stepJTextFieldDocumentListener);
         
-        
         // get buttons
         JButton moveForwardJButton  = view.getMotionControlJPanel().getMoveForwardJButton();
         JButton moveBackwardJButton = view.getMotionControlJPanel().getMoveBackwardJButton();
