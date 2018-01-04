@@ -19,14 +19,22 @@ public final class MotionControlJPanel extends JPanel {
     private final JLabel stepJLabel = new JLabel("step:");
     private final JTextField stepJTextField = new JTextField(1);
     
-    private final JButton moveForwardJButton  = new JButton();
-    private final JButton moveBackwardJButton = new JButton();
-    private final JButton moveLeftJButton     = new JButton();
-    private final JButton moveRightJButton    = new JButton();
-    private final JButton moveUpwardJButton   = new JButton();
-    private final JButton moveDownwardJButton = new JButton();
+    private final JButton moveForwardJButton  = new JButton("↑");
+    private final JButton moveBackwardJButton = new JButton("↓");
+    private final JButton moveLeftJButton     = new JButton("←");
+    private final JButton moveRightJButton    = new JButton("→");
+    private final JButton moveUpwardJButton   = new JButton("↥");
+    private final JButton moveDownwardJButton = new JButton("↧");
     
     public MotionControlJPanel() {
+        
+        this.moveForwardJButton .setToolTipText("move forward");
+        this.moveBackwardJButton.setToolTipText("move backward");
+        this.moveLeftJButton    .setToolTipText("move left");
+        this.moveRightJButton   .setToolTipText("move right");
+        this.moveUpwardJButton  .setToolTipText("move upward");
+        this.moveDownwardJButton.setToolTipText("move downward");
+        
         this.setBorder(new TitledBorder("Motion Control"));
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
