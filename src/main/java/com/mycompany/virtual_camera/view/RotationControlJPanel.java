@@ -19,14 +19,22 @@ public final class RotationControlJPanel extends JPanel {
     private final JLabel angleJLabel = new JLabel("angle:");
     private final JTextField angleJTextField = new JTextField(1);
     
-    private final JButton rotateLeftJButton      = new JButton();
-    private final JButton rotateRightJButton     = new JButton();
-    private final JButton rotateUpwardJButton    = new JButton();
-    private final JButton rotateDownwardJButton  = new JButton();
-    private final JButton rotateTiltLeftJButton  = new JButton();
-    private final JButton rotateTiltRightJButton = new JButton();
+    private final JButton rotateLeftJButton      = new JButton("↶");
+    private final JButton rotateRightJButton     = new JButton("↷");
+    private final JButton rotateUpwardJButton    = new JButton("⤴");
+    private final JButton rotateDownwardJButton  = new JButton("⤵");
+    private final JButton rotateTiltLeftJButton  = new JButton("↺");
+    private final JButton rotateTiltRightJButton = new JButton("↻");
     
     public RotationControlJPanel() {
+        
+        this.rotateLeftJButton     .setToolTipText("rotate left");
+        this.rotateRightJButton    .setToolTipText("rotate right");
+        this.rotateUpwardJButton   .setToolTipText("rotate upward");
+        this.rotateDownwardJButton .setToolTipText("rotate downward");
+        this.rotateTiltLeftJButton .setToolTipText("rotate tilt left");
+        this.rotateTiltRightJButton.setToolTipText("rotate tilt right");
+        
         this.setBorder(new TitledBorder("Rotation Control"));
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
