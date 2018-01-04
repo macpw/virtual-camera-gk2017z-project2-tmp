@@ -7,6 +7,13 @@ import com.mycompany.virtual_camera.controller.motion.MoveLeftAction;
 import com.mycompany.virtual_camera.controller.motion.MoveRightAction;
 import com.mycompany.virtual_camera.controller.motion.MoveUpwardAction;
 import com.mycompany.virtual_camera.controller.motion.StepJTextFieldDocumentListener;
+import com.mycompany.virtual_camera.controller.rotation.AngleJTextFieldDocumentListener;
+import com.mycompany.virtual_camera.controller.rotation.RotateDownwardAction;
+import com.mycompany.virtual_camera.controller.rotation.RotateLeftAction;
+import com.mycompany.virtual_camera.controller.rotation.RotateRightAction;
+import com.mycompany.virtual_camera.controller.rotation.RotateTiltLeftAction;
+import com.mycompany.virtual_camera.controller.rotation.RotateTiltRightAction;
+import com.mycompany.virtual_camera.controller.rotation.RotateUpwardAction;
 import com.mycompany.virtual_camera.model.ViewportModel;
 import com.mycompany.virtual_camera.view.View;
 import java.awt.event.InputEvent;
@@ -29,13 +36,15 @@ public class Controller {
         this.viewportModel = viewportModel;
         this.view = view;
         this.addMotionActions();
+        this.addRotationActions();
     }
     
     private void addMotionActions() {
         JTextField stepJTextField = view.getMotionControlJPanel().getStepJTextField();
         stepJTextField.setText(Double.toString(viewportModel.getStep()));
         stepJTextField.setToolTipText("step="+viewportModel.getStep());
-        stepJTextField.getDocument().addDocumentListener(new StepJTextFieldDocumentListener(stepJTextField, viewportModel));
+        StepJTextFieldDocumentListener stepJTextFieldDocumentListener = new StepJTextFieldDocumentListener(stepJTextField, viewportModel);
+        stepJTextField.getDocument().addDocumentListener(stepJTextFieldDocumentListener);
         
         
         // get buttons
@@ -81,5 +90,57 @@ public class Controller {
         KeyStroke ctrlDownKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, InputEvent.CTRL_DOWN_MASK);
         moveDownwardJButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(ctrlDownKeyStroke, ctrlDownKeyStroke.toString());
         moveDownwardJButton.getActionMap().put(ctrlDownKeyStroke.toString(), moveDownwardAction);
+    }
+    
+    private void addRotationActions() {
+        JTextField angleJTextField = view.getRotationControlJPanel().getAngleJTextField();
+        angleJTextField.setText(Double.toString(viewportModel.getAngleInDegrees()));
+        angleJTextField.setToolTipText("angle="+viewportModel.getAngleInDegrees());
+        AngleJTextFieldDocumentListener angleJTextFieldDocumentListener = new AngleJTextFieldDocumentListener(angleJTextField, viewportModel);
+        angleJTextField.getDocument().addDocumentListener(angleJTextFieldDocumentListener);
+        
+        // get buttons
+        JButton rotateLeftJButton      = view.getRotationControlJPanel().getRotateLeftJButton();
+        JButton rotateRightJButton     = view.getRotationControlJPanel().getRotateRightJButton();
+        JButton rotateUpwardJButton    = view.getRotationControlJPanel().getRotateUpwardJButton();
+        JButton rotateDownwardJButton  = view.getRotationControlJPanel().getRotateDownwardJButton();
+        JButton rotateTiltLeftJButton  = view.getRotationControlJPanel().getRotateTiltLeftJButton();
+        JButton rotateTiltRightJButton = view.getRotationControlJPanel().getRotateTiltRightJButton();
+        
+        // create actions
+        RotateLeftAction      rotateLeftAction      = new RotateLeftAction(viewportModel);
+        RotateRightAction     rotateRightAction     = new RotateRightAction(viewportModel);
+        RotateUpwardAction    rotateUpwardAction    = new RotateUpwardAction(viewportModel);
+        RotateDownwardAction  rotateDownwardAction  = new RotateDownwardAction(viewportModel);
+        RotateTiltLeftAction  rotateTiltLeftAction  = new RotateTiltLeftAction(viewportModel);
+        RotateTiltRightAction rotateTiltRightAction = new RotateTiltRightAction(viewportModel);
+        
+        // add actions
+        rotateLeftJButton     .addActionListener(rotateLeftAction);
+        rotateRightJButton    .addActionListener(rotateRightAction);
+        rotateUpwardJButton   .addActionListener(rotateUpwardAction);
+        rotateDownwardJButton .addActionListener(rotateDownwardAction);
+        rotateTiltLeftJButton .addActionListener(rotateTiltLeftAction);
+        rotateTiltRightJButton.addActionListener(rotateTiltRightAction);
+        
+        // bind key with actions
+        KeyStroke shiftLeftKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, InputEvent.SHIFT_DOWN_MASK);
+        rotateLeftJButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(shiftLeftKeyStroke, shiftLeftKeyStroke.toString());
+        rotateLeftJButton.getActionMap().put(shiftLeftKeyStroke.toString(), rotateLeftAction);
+        KeyStroke shiftRightKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, InputEvent.SHIFT_DOWN_MASK);
+        rotateRightJButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(shiftRightKeyStroke, shiftRightKeyStroke.toString());
+        rotateRightJButton.getActionMap().put(shiftRightKeyStroke.toString(), rotateRightAction);
+        KeyStroke shiftUpKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_UP, InputEvent.SHIFT_DOWN_MASK);
+        rotateUpwardJButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(shiftUpKeyStroke, shiftUpKeyStroke.toString());
+        rotateUpwardJButton.getActionMap().put(shiftUpKeyStroke.toString(), rotateUpwardAction);
+        KeyStroke shiftDownKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, InputEvent.SHIFT_DOWN_MASK);
+        rotateDownwardJButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(shiftDownKeyStroke, shiftDownKeyStroke.toString());
+        rotateDownwardJButton.getActionMap().put(shiftDownKeyStroke.toString(), rotateDownwardAction);
+        KeyStroke shiftCtrlLeftKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, InputEvent.SHIFT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK);
+        rotateTiltLeftJButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(shiftCtrlLeftKeyStroke, shiftCtrlLeftKeyStroke.toString());
+        rotateTiltLeftJButton.getActionMap().put(shiftCtrlLeftKeyStroke.toString(), rotateTiltLeftAction);
+        KeyStroke shiftCtrlRightKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, InputEvent.SHIFT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK);
+        rotateTiltRightJButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(shiftCtrlRightKeyStroke, shiftCtrlRightKeyStroke.toString());
+        rotateTiltRightJButton.getActionMap().put(shiftCtrlRightKeyStroke.toString(), rotateTiltRightAction);
     }
 }
